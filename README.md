@@ -73,15 +73,23 @@ makepkg --syncdeps
 
 ## Release maintenance
 
-The GitHub workflow checks for a new stable upstream release every six hours.
-It updates the source version, SHA-256 checksum, and `.SRCINFO`, then builds as
-an unprivileged user and runs the package's OIDC checks. Only a successful run
-can commit the update and publish it to AUR using `AUR_SSH_PRIVATE_KEY`.
-Prereleases and development commits are excluded. Installation stays manual.
+GitHub Actions checks every six hours for stable release updates and opens or
+refreshes an update PR. The CLI also refreshes compatible runtime dependencies,
+with a seven-day waiting period for third-party releases.
 
-GitHub Actions failure notifications identify releases needing maintenance.
-Upstream build changes can require edits to the recipe. GitHub can disable
-scheduled workflows in inactive public repositories after 60 days.
+Builds and package tests start automatically, without an approval click. The
+workflow merges the exact tested PR commit only after all build checks pass.
+It then rebuilds the committed recipe on `main` and publishes to AUR from a
+separate job. The AUR key is never supplied to the build job. A failed build
+blocks automatic merging or publication; GitHub Actions failure notifications
+identify updates needing maintenance. Installation on your machine stays manual.
+
+Run **Propose stable release update** in Actions to check immediately. Run
+**Build and publish AUR release** on an update branch to retry its tests, or on
+`main` to retry publication. The build workflow never resolves a newer release:
+it tests exactly the recipe in the selected commit. Explicit workflow dispatch
+ensures bot-created PRs are tested and bot merges publish automatically.
+GitHub may delay scheduled runs or disable schedules after 60 days of inactivity.
 
 Manual checks:
 
