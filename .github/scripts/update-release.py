@@ -43,7 +43,7 @@ def main():
         print('PASS stable release validation and recipe update')
         return
     request = urllib.request.Request('https://api.github.com/repos/omnigent-ai/omnigent/releases/latest',
-                                     headers={'User-Agent': 'aur-omnigent-release-check'})
+                                     headers={'User-Agent': 'aur-omnigent-desktop-release-check'})
     with urllib.request.urlopen(request, timeout=30) as response:
         version = release_version(json.load(response))
     path = Path('PKGBUILD')

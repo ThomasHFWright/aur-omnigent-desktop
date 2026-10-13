@@ -73,6 +73,9 @@ makepkg --syncdeps
 
 ## Release maintenance
 
+Packaging and automation are maintained in
+[aur-omnigent-desktop](https://github.com/ThomasHFWright/aur-omnigent-desktop).
+
 GitHub Actions checks every six hours for stable release updates and opens or
 refreshes an update PR. The CLI also refreshes compatible runtime dependencies,
 with a seven-day waiting period for third-party releases.
