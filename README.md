@@ -77,8 +77,9 @@ Packaging and automation are maintained in
 [aur-omnigent-desktop](https://github.com/ThomasHFWright/aur-omnigent-desktop).
 
 GitHub Actions checks every six hours for stable release updates and opens or
-refreshes an update PR. The CLI also refreshes compatible runtime dependencies,
-with a seven-day waiting period for third-party releases.
+refreshes an update PR. The CLI batches routine dependency updates weekly on Monday at 03:17 UTC,
+with a seven-day waiting period for third-party releases. New Omnigent releases
+and Python compatibility rebuilds do not wait for that batch.
 
 Builds and package tests start automatically, without an approval click. The
 workflow merges the exact tested PR commit only after all build checks pass.
