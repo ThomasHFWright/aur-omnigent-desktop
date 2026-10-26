@@ -40,8 +40,9 @@ enabled = true
 
 The native Landlock sandbox restricts access to home files outside permitted
 build paths. It still permits shared `/tmp` and network access; it is not a
-clean chroot. This recipe keeps npm and Electron caches inside its build
-directory so it needs no extra home-directory permissions.
+clean chroot. This recipe keeps npm and Electron caches, plus pnpm's managed
+package-manager versions (`PNPM_HOME`), inside its build directory so it needs
+no extra home-directory permissions.
 
 Launch **Omnigent** from the applications menu or run `omnigent-desktop`.
 The name of the launcher avoids colliding with the upstream Python CLI.
