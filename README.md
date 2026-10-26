@@ -40,9 +40,10 @@ enabled = true
 
 The native Landlock sandbox restricts access to home files outside permitted
 build paths. It still permits shared `/tmp` and network access; it is not a
-clean chroot. This recipe keeps npm and Electron caches, plus pnpm's managed
-package-manager versions (`PNPM_HOME`), inside its build directory so it needs
-no extra home-directory permissions.
+clean chroot. This recipe keeps npm and Electron caches, pnpm's managed
+package-manager versions (`PNPM_HOME`), and runtime locks (`XDG_RUNTIME_DIR`)
+inside its build directory. This also works when launched from a desktop session
+whose runtime directory is outside the sandbox.
 
 Launch **Omnigent** from the applications menu or run `omnigent-desktop`.
 The name of the launcher avoids colliding with the upstream Python CLI.
@@ -103,6 +104,16 @@ python .github/scripts/update-release.py --self-test
 python .github/scripts/update-release.py
 makepkg --cleanbuild
 ```
+
+Also test with Shelly's sandbox from a desktop session (where `XDG_RUNTIME_DIR`
+is set). For a terminal without that variable, reproduce the GUI environment:
+
+```sh
+XDG_RUNTIME_DIR="/run/user/$(id -u)" shelly build --reviewed --check
+```
+
+This catches pnpm writes outside the build directory that CI's unsandboxed
+container and a terminal without a desktop environment can miss.
 
 The release tag is authoritative for the desktop version: upstream v0.17.0
 still labels its Electron package 0.14.0. The recipe corrects that metadata.
